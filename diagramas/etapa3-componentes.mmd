@@ -1,5 +1,4 @@
 %% Etapa 3 · Componentes y dirección de las dependencias
-%% PLANTILLA-SIN-RESOLVER  ← borre esta línea cuando este dibujo sea suyo
 %% ·
 %% Reglas que el marcador verifica:
 %%   · Tres subgrafos, con estos nombres:  dominio, aplicacion, infraestructura
@@ -27,5 +26,34 @@
 
 flowchart TD
     subgraph dominio[dominio]
-        lote[Lote]
+        Lote[Entidad Lote]
+        Peso[Valor Peso]
+        RepositorioDeLotes[/Puerto RepositorioDeLotes/]
+        Reloj[/Puerto Reloj/]
+        PrecioDelDia[/Puerto PrecioDelDia/]
+        Bitacora[/Puerto Bitacora/]
     end
+
+    subgraph aplicacion[aplicacion]
+        CasoRecibo[Caso de Uso: Registrar Recibo]
+        CasoLiquidacion[Caso de Uso: Calcular Liquidación]
+    end
+
+    subgraph infraestructura[infraestructura]
+        AdaptadorDB[Adaptador: Repositorio PostgreSQL]
+        ControladorAPI[Controlador: API FastAPI]
+        AdaptadorReloj[Adaptador: Reloj Sistema]
+        AdaptadorPrecio[Adaptador: API Precio BCCR]
+    end
+
+    %% Dirección de las dependencias: NINGUNA sale de dominio
+    CasoRecibo --> Lote
+    CasoRecibo --> RepositorioDeLotes
+    CasoRecibo --> Reloj
+    CasoLiquidacion --> Lote
+    CasoLiquidacion --> PrecioDelDia
+
+    AdaptadorDB -.-> RepositorioDeLotes
+    AdaptadorReloj -.-> Reloj
+    AdaptadorPrecio -.-> PrecioDelDia
+    ControladorAPI --> CasoRecibo

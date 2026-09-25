@@ -29,6 +29,51 @@ from dataclasses import dataclass
 from datetime import datetime
 from decimal import Decimal
 
-from .errores import ErrorDominio  # noqa: F401  (lo va a necesitar)
+from .errores import ErrorDominio, EntregaInvalida, LoteYaCerrado  # noqa: F401  (lo va a necesitar)
 
-# TODO etapa 3
+@dataclass(frozen=True)
+class Peso:
+    kilos: Decimal
+
+    def __init__(self, kilos: Decimal):
+        if kilos <= Decimal("0"):
+            raise EntregaInvalida("El peso debe ser mayor a cero.")
+        object.__setattr__(self, "kilos", kilos)
+
+@dataclass(frozen=True)
+class Entrega:
+    id_entrega: str
+    cedula_productor: str
+    peso: Peso
+    humedad: Decimal
+    recibida_en: datetime
+
+@dataclass(frozen=True)
+class Lote:
+    id_lote: str
+    cooperativa: str
+    entregas: tuple[Entrega, ...] = ()
+    cerrado: bool = False
+
+    @property
+    def peso_total(self):
+        if not self.entregas:
+            return Peso(Decimal("0.0001"))
+        total = sum((e.peso.kilos for e in self.entregas), Decimal("0"))
+        return Peso(total)
+
+    def agregar(self, entrega: Entrega):
+        if self.cerrado:
+            raise LoteYaCerrado("Lote cerrado.")
+        return Lote(
+            id_lote=self.id_lote,
+            cooperativa=self.cooperativa,
+            entregas=self.entregas + (entrega,),
+            cerrado=self.cerrado)
+
+    def cerrar(self) -> Lote:
+        return Lote(
+            id_lote=self.id_lote,
+            cooperativa=self.cooperativa,
+            entregas=self.entregas,
+            cerrado=True)

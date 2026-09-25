@@ -117,8 +117,10 @@ Para cumplir estrictamente con el R-4, que prohíbe rechazar camiones en el pati
 Responda exactamente una: `float`, `Decimal`, `tipo propio`.
 
 **Decisión:**
+tipo propio
 
 **Justificación:**
+Se selecciona un tipo propio implementado en la clase Peso para encapsular un valor de tipo Decimal y asegurar el cumplimiento del R-5. Esto previene errores de redondeo de los punto flotante y restringe a valores estrictamente mayores a cero, impidiendo que cambios o alteraciones externas afecten los pesos asociados a los lotes.
 
 ### D3.2 · ¿Quién decide que un lote quedó cerrado?
 
@@ -126,10 +128,12 @@ El dominio, la aplicación o la infraestructura. Responda con una de esas tres
 palabras y diga qué pasaría si viviera en otra capa.
 
 **Decisión:**
+dominio
 
 **Justificación:**
+La condición de cierre es una regla de negocio que se valora en la certificación del R-5. Si este flujo residiera en la infraestructura, la lógica dependería directamente de las tecnologías de persistencia de datos o de las propias bases de datos, invalidando la operación sin internet requerida por el R-3 y el R-4. Al ubicarse en el dominio como un estado del objeto congelado, se garantiza la proteccion e independencia del entorno.
 
-**Sello:**
+**Sello:** bacc5fe020e69c90
 
 ---
 

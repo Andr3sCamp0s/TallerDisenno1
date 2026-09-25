@@ -10,5 +10,16 @@ class ErrorDominio(Exception):
     """Raiz de todo lo que el dominio sabe rechazar."""
 
 
-# TODO etapa 3: EntregaInvalida, LoteYaCerrado
+class ErrorDominio(Exception):
+    """Raiz de todo lo que el dominio sabe rechazar."""
+
+
+class EntregaInvalida(ErrorDominio):
+    """Se levanta cuando los datos de una entrega no son válidos."""
+
+
+class LoteYaCerrado(ErrorDominio):
+    """Se levanta al intentar modificar un lote ya cerrado."""
+
+    
 # TODO etapa 4: CooperativaNoRegistrada
