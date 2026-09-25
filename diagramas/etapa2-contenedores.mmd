@@ -1,5 +1,4 @@
 %% Etapa 2 · Contenedores (C4 nivel 2)
-%% PLANTILLA-SIN-RESOLVER  ← borre esta línea cuando este dibujo sea suyo
 %% ·
 %% Reglas que el marcador verifica:
 %%   · Los contenedores propios van dentro de  subgraph cafetrace[CafeTrace]
@@ -31,4 +30,31 @@
 flowchart TD
     subgraph cafetrace[CafeTrace]
         tableta["Tableta del recibidor (Android)"]
+        db_local[("Base de Datos Embebida (SQLite)")]
+        servidor["Servidor Central (FastAPI)"]
+        db_central[("Base de Datos Principal (PostgreSQL)")]
+
+        tableta -->|SQL| db_local
+        tableta -->|HTTPS| servidor
+        servidor -->|SQL| db_central
     end
+
+    subgraph externos[Externos]
+        Productor[Productor]
+        Auditor[Auditor de Certificación]
+        ICAFE[Sistema ICAFE]
+        Aduana[API Aduanas]
+        ServicioPrecio[Servicio de Precio]
+        Exportador[Exportador]
+        Gerente[Gerente de Cooperativa]
+    end
+
+    %% Relaciones externas puras basadas en la tupla estricta PROTOCOLOS
+    Productor -->|evento| tableta
+    tableta -->|evento| Productor
+    servidor -->|HTTPS| Auditor
+    servidor -->|archivo| ICAFE
+    servidor -->|HTTPS| Aduana
+    ServicioPrecio -->|HTTPS| servidor
+    Exportador -->|HTTPS| servidor
+    Gerente -->|HTTPS| servidor

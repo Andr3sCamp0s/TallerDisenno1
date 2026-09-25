@@ -83,24 +83,30 @@ Antes de contestar lea otra vez el requisito 2 y el requisito 16. Los dos son
 ciertos al mismo tiempo.
 
 **Decisión:**
+monolito modular
 
 **Justificación:**
+Aunque el R-2 exige alta escalabilidad para procesar 12,000 entregas al día durante la cosecha alta, la restricción operativa del R-16 es bastante firme, el sistema es mantenido por un solo desarrollador a medio tiempo sin equipo de operaciones. Diseñar una arquitectura de microservicios añadiría una sobrecarga operativa inmanejable para una sola persona, en cambio un monolito modular implementado de forma limpia en la nube permite un despliegue y monitoreo simple que cumple el R-16.
 
 ### D2.2 · ¿En cuál contenedor se calcula la liquidación al productor?
 
 Escriba el nombre exacto del contenedor, tal como lo llamó en su diagrama.
 
 **Decisión:**
+Servidor Central (FastAPI)
 
 **Justificación:**
+El cálculo de la liquidación se ejecuta de forma centralizada en el contenedor del servidor debido a las reglas de negocio que cambian por cooperativa expresadas en el R-8. Dado que las tabletas operan de forma desconectada durante horas como se ve en el R-3 y poseen hardware limitado de 2 GB de RAM como se ve en el R-12, no es viable manejar en ellas algoritmos complejos ni almacenamiento de fórmulas en constante cambio. Centralizar este proceso en el monolito asegura consistencia de datos, auditoría inmediata según el R-10 y facilita que el desarrollador de medio tiempo actualice las reglas en un único espacio del codigo.
 
 ### D2.3 · ¿La tableta guarda datos por su cuenta? (`sí` / `no`)
 
 **Decisión:**
+sí
 
 **Justificación:**
+Para cumplir estrictamente con el R-4, que prohíbe rechazar camiones en el patio por falta de señal, la tableta debe ser completamente independiente. Bajo las condiciones del R-3, donde la señal celular se pierde de tres a cuatro horas consecutivas, el cliente móvil necesita almacenar localmente la totalidad de los datos del lote segun como viene en R-1, para luego encolar las transacciones para su posterior sincronización cuando la red vuelva.
 
-**Sello:**
+**Sello:** 8e75499475f9606f
 
 ---
 
