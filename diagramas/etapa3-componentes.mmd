@@ -1,0 +1,31 @@
+%% Etapa 3 · Componentes y dirección de las dependencias
+%% PLANTILLA-SIN-RESOLVER  ← borre esta línea cuando este dibujo sea suyo
+%% ·
+%% Reglas que el marcador verifica:
+%%   · Tres subgrafos, con estos nombres:  dominio, aplicacion, infraestructura
+%%   · CERO flechas que salgan de dominio hacia infraestructura
+%%   · CERO flechas que salgan de dominio hacia aplicacion
+%%   · Al menos dos componentes en cada subgrafo
+%%   · Los puertos que declaró en cafetrace/dominio/puertos.py aparecen aquí
+%% ·
+%% Esta es la lámina donde se ve si entendió la inversión de dependencias:
+%% las flechas apuntan HACIA el dominio, nunca desde él.
+%% ·
+%% Así se escribe (el contenido es suyo):
+%% ·
+%%     flowchart TD
+%%         subgraph dominio[dominio]
+%%             cosa[Una entidad]
+%%             puerto[/UnPuerto/]
+%%         end
+%%         subgraph infraestructura[infraestructura]
+%%             adaptador[Quien lo implementa]
+%%         end
+%%         adaptador -.implementa.-> puerto
+%% ·
+%% Dibújelo primero a mano. La foto va en BOSQUEJOS/etapa3.jpg.
+
+flowchart TD
+    subgraph dominio[dominio]
+        lote[Lote]
+    end
