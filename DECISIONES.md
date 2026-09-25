@@ -145,8 +145,10 @@ Nombre el estilo y complete la frase, literalmente:
 «Este estilo **compra** ____ y lo **paga** con ____».
 
 **Decisión:**
+Este estilo compra modificaciones mas sencillas y lo paga con complejidad inicial.
 
 **Justificación:**
+Se utiliza una arquitectura basada en la inyección de dependencias como los puertos y adaptadores para cumplir el R-8. Este estilo compra la capacidad de añadir o alterar las fórmulas de cálculo de liquidación sin modificar un solo archivo del núcleo de la aplicación. Sin embargo, lo paga con la necesidad de crear una lista centralizada que el sistema consulta en tiempo real para saber qué componente debe encargarse de procesar cada tarea.
 
 ### D4.2 · Entra la cooperativa número seis. ¿Cuáles archivos hay que tocar?
 
@@ -154,10 +156,12 @@ Liste las rutas. Si en la lista aparece un archivo del paquete `dominio`, su
 diseño todavía no cumple el requisito 8.
 
 **Decisión:**
+cafetrace/infraestructura/reglas_cooperativas.py y el punto de entrada de la aplicación main.py.
 
 **Justificación:**
+Al emplear el patrón de inyectar desde el exterior, la llegada de una nueva organización según el R-9 se trata como una extensión técnica solo en la capa de infraestructura. Solo es requerido crear una nueva clase que vea la firma adecuada en el archivo de reglas y ponerla en el listado del inicializador central, por otra parte, el paquete dominio permanece intacto, protegido ante cambios externos.
 
-**Sello:**
+**Sello:** 7721321f67632d0b
 
 ---
 

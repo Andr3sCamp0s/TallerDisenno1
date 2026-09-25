@@ -14,4 +14,14 @@ cooperativas existen hoy.
 """
 from __future__ import annotations
 
-# TODO etapa 4
+from typing import Iterable, Mapping
+from cafetrace.dominio.liquidacion import ReglaDeLiquidacion
+
+def construir_registro(reglas: Iterable[ReglaDeLiquidacion]) -> Mapping[str, ReglaDeLiquidacion]:
+    mapa = {}
+    for regla in reglas:
+        nombre = regla.cooperativa
+        if nombre in mapa:
+            raise ValueError(f"Regla duplicada para la cooperativa: {nombre}")
+        mapa[nombre] = regla
+    return mapa

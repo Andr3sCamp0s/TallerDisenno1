@@ -25,4 +25,21 @@ from __future__ import annotations
 from decimal import Decimal
 from typing import Mapping, Protocol, runtime_checkable
 
-# TODO etapa 4
+from cafetrace.dominio.modelos import Lote
+from cafetrace.dominio.errores import CooperativaNoRegistrada
+
+@runtime_checkable
+class ReglaDeLiquidacion(Protocol):
+    cooperativa: str
+    def liquidar(self, lote: Lote, precio_por_quintal: Decimal): ...
+
+class Liquidador:
+    def __init__(self, reglas: Mapping[str, ReglaDeLiquidacion]):
+        self._reglas = reglas
+
+    def liquidar(self, lote: Lote, precio_por_quintal: Decimal):
+        if lote.cooperativa not in self._reglas:
+            raise CooperativaNoRegistrada(f"La cooperativa '{lote.cooperativa}' no está registrada.")
+        
+        regla = self._reglas[lote.cooperativa]
+        return regla.liquidar(lote, precio_por_quintal)

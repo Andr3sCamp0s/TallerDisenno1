@@ -22,4 +22,5 @@ class LoteYaCerrado(ErrorDominio):
     """Se levanta al intentar modificar un lote ya cerrado."""
 
     
-# TODO etapa 4: CooperativaNoRegistrada
+class CooperativaNoRegistrada(ErrorDominio):
+    """Se levanta cuando la cooperativa no está registrada."""
