@@ -1,2 +1,2 @@
-Nombre:
-Carne:
+Nombre: Andres Campos Montero
+Carne: 2025069367

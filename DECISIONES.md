@@ -25,8 +25,10 @@ Escoja **un** requisito de los dieciocho. El dominante es el que, si se
 incumple, vuelve inútil el resto del sistema.
 
 **Decisión:**
+El requisito 3 R-3 operar sin señal celular de tres a cuatro horas continuas.
 
 **Justificación:**
+La obligación de operar de forma continua bajo la restricción de infraestructura del R-3 y el atributo de calidad del R-4 donde la tableta no puede rechazar entregas por falta de red obliga a un diseño arquitectónico que sirva fuera de linea. Si no se diseña la persistencia local de la tableta para soportar estas horas sin señal, se detiene la recepción del camión en el patio y el envio de los lotes, haciendo inútil cualquier funcionalidad central del sistema.
 
 ### D0.2 · ¿Cuáles dos requisitos se contradicen, y cuál cede?
 
@@ -34,10 +36,12 @@ Nombre los dos por número, explique en qué se chocan, y diga cuál de los dos
 va a ceder en su diseño y qué se pierde con eso.
 
 **Decisión:**
+El requisito 4 se contradice directamente con el requisito 5.
 
 **Justificación:**
+El requisito 4 exige máxima disponibilidad local en las tabletas o sea no rechazar ninguna entrega por falta de red, mientras que el requisito 5 exige integridad inmediata estricta lo que significa que un lote no puede cambiar de peso tras el cierre para no perder la certificación. En este diseño se prioriza la operación de campo del negocio y cede la consistencia inmediata global, se sacrifica la validación en tiempo real en favor de una consistencia. Con esto se gana continuidad en los patios pero se renuncia a la certeza inmediata del cierre en el sistema central.
 
-**Sello:**
+**Sello:** 7b1ae19fd47f62e5
 
 ---
 
