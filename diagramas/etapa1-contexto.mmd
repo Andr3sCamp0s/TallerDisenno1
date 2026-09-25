@@ -1,5 +1,4 @@
 %% Etapa 1 · Contexto (C4 nivel 1)
-%% PLANTILLA-SIN-RESOLVER  ← borre esta línea cuando este dibujo sea suyo
 %% ·
 %% Reglas que el marcador verifica:
 %%   · El sistema va en un nodo con el identificador  sistema
@@ -20,4 +19,22 @@
 %% Dibújelo primero a mano. La foto va en BOSQUEJOS/etapa1.jpg.
 
 flowchart TD
-    sistema[CafeTrace]
+    sistema[Sistema CaféTrace]
+
+    %% Elementos Externos
+    Productor[Productor]
+    Auditor[Auditor de Certificación]
+    ICAFE[ICAFE]
+    Aduanas[Aduanas]
+    ServicioPrecio[Servicio de Precio Internacional]
+    Exportador[Exportador]
+    Gerente[Gerente de Cooperativa]
+
+    %% Conexiones del negocio
+    Productor -->|Manda fruta y cedula en el patio| sistema
+    sistema -->|Entrega historial de los lotes| Auditor
+    sistema -->|Envía el reporte mensual en el formato correcto| ICAFE
+    Aduanas -->|Recibe los datos de exportacion de los contenedores| sistema
+    ServicioPrecio -->|Publica la cotización del quintal todos los dias a las 3pm| sistema
+    Exportador -->|Consulta el estado de los contenedores| sistema
+    Gerente -->|Monitorea el avance de la cosecha| sistema

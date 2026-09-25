@@ -52,8 +52,10 @@ El requisito 4 exige máxima disponibilidad local en las tabletas o sea no recha
 Responda exactamente `dentro` o `fuera`.
 
 **Decisión:**
+fuera
 
 **Justificación:**
+El servicio que publica el precio del quintal de café es un sistema externo mantenido por un tercero, según lo describe el R-14. CaféTrace no gobierna su infraestructura ni su ciclo de vida, por lo que actúa únicamente como un cliente que consume este dato externo mediante un puerto una vez que es publicado diariamente a las 3 p. mpor cada cooperativa.
 
 ### D1.2 · La tableta del recibidor, ¿es un actor externo o una parte del sistema?
 
@@ -61,10 +63,12 @@ Responda exactamente `externo` o `parte`. Piense quién la programa y quién la
 despliega.
 
 **Decisión:**
+parte
 
 **Justificación:**
+La tableta del recibidor ejecuta una aplicación móvil diseñada por nosotros, capturar de forma estricta los datos obligatorios del R-1 es la idea principal. Al tener que asegurar la continuidad del negocio mediante almacenamiento local durante las caídas de red recurrentes en las fincas como nos dicen R-3 y R-4, la lógica de este cliente móvil en las tabletas opera como una pieza integrada que forma parte del despliegue del sistema y no como una interfaz externa a este.
 
-**Sello:**
+**Sello:** b8575cfd2edfc56a
 
 ---
 
