@@ -173,24 +173,28 @@ Tres respuestas, una por línea, cada una con una de estas palabras:
 `archivo`, `rpc`, `mensajería`, `evento`.
 
 ```
-ICAFE:
-Aduana:
-Tabletas:
+ICAFE: archivo
+Aduana: rpc
+Tabletas: mensajería
 ```
 
 **Decisión:**
+Se seleccionan estilos heterogéneos como archivo para ICAFE, rpc para Aduana y mensajería para Tabletas.
 
 **Justificación:**
+El R-6 obliga al uso de un archivo plano mensual para el ICAFE por carecer de interfaces modernas. Para la Aduana se opta por rpc mediante llamadas directas HTTP debido a que es un servicio externo requerido durante los despachos en puerto caldera R-11, evitando que sus cambios repentinos R-7 afecten el resto del sistema usando una capa intermedia. Por último, para las Tabletas se implementa un modelo de mensajería asincronico para cumplir estrictamente el R-3 y R-4, garantizando el encolado local de los datos de los lotes para su retransmisión cuando vuelva la conexion a red.
 
 ### D5.2 · La tableta reenvía una entrega que ya había llegado. ¿Qué pasa?
 
 Describa el comportamiento que usted implementó, no el que le gustaría.
 
 **Decisión:**
+El sistema ejecuta una respuesta duplicada devolviendo el mismo comprobante original peeeero con la bandera de duplicado activa, asi funciona sin alterar los lotes.
 
 **Justificación:**
+Bajo las condiciones de caídas de red recurrentes R-3, las tabletas retransmitirán transacciones de forma tardía en los tiempos de alta cosecha R-2. Para cumplir con la inmutabilidad exigida por la certificación en R-5, el caso de uso intercepta el reenvío a través del método entrega_registrada, omitiendo la inserción en el dominio para evitar cobrar doble al productor, pero retornando un éxito con la bandera de duplicado=True para que la tableta limpie su cola de manera local.
 
-**Sello:**
+**Sello:** f821abd2f54c73a0
 
 ---
 

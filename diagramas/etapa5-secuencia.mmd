@@ -1,5 +1,4 @@
 %% Etapa 5 · La entrega que llega dos veces
-%% PLANTILLA-SIN-RESOLVER  ← borre esta línea cuando este dibujo sea suyo
 %% ·
 %% Reglas que el marcador verifica:
 %%   · Es un sequenceDiagram
@@ -27,4 +26,22 @@
 %% Dibújelo primero a mano. La foto va en BOSQUEJOS/etapa5.jpg.
 
 sequenceDiagram
-    participant T as Tableta del recibidor
+    autonumber
+    participant tableta as Tableta del recibidor
+    participant api as API Central Borde
+    participant caso as RegistrarEntrega
+    participant repo as RepositorioDeLotes
+
+    tableta->>api: ejecutar_solicitud(datos)
+    api->>caso: ejecutar(solicitud, id_lote)
+    caso->>repo: entrega_registrada(id_entrega)
+    repo-->>caso: booleano (existe o no)
+
+    alt primera vez que llega (no existe)
+        caso->>repo: guardar(lote_nuevo)
+        caso-->>api: Comprobante(duplicado=False)
+        api-->>tableta: Comprobante impreso
+    else segunda vez que llega (ya habia llegado)
+        caso-->>api: Comprobante(duplicado=True)
+        api-->>tableta: Mismo comprobante de exito
+    end
