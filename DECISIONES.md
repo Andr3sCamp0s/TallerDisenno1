@@ -205,16 +205,18 @@ Bajo las condiciones de caídas de red recurrentes R-3, las tabletas retransmiti
 Para cada cambio, cuántos archivos suyos hay que tocar y cuáles:
 
 ```
-a) Cambia la fórmula de liquidación de Palmares:
-b) El ICAFE pasa de archivo de posiciones fijas a un CSV:
-c) Hay que soportar un segundo idioma en el comprobante:
+a) Cambia la fórmula de liquidación de Palmares: 1 archivo, cafetrace/infraestructura/reglas_cooperativas.py
+b) El ICAFE pasa de archivo de posiciones fijas a un CSV: 1 archivo, cafetrace/infraestructura/registro.py
+c) Hay que soportar un segundo idioma en el comprobante: 1 archivo, cafetrace/aplicación/recibo.py
 ```
 
 **Decisión:**
+Cada cambio se encuentra completamente aislado en un único componente específico dentro de la arquitectura gracias a la separación de responsabilidades.
 
 **Justificación:**
+Las variaciones en las fórmulas de liquidación del R-8 quedan atrapadas estrictamente en el adaptador de infraestructura de reglas_cooperativas.py sin tocar el dominio. Por otro lado, si el ICAFE cambia su viejo formato visto en R-6, solo hay que modificar el archivo de infraestructura registro.py ya que justo ahi fue donde separamos la logica de exportacion, asi el cambio se logra sin tener que tocar el resto del sistema. Finalmente, el idioma del comprobante del recibo es una responsabilidad pura de la capa de aplicación, modificando exclusivamente el archivo recibo.py sin alterar nada mas.
 
-**Sello:**
+**Sello:** 337e06a64b617500
 
 ---
 
@@ -224,5 +226,7 @@ Durante el taller dos principios o dos atributos de calidad le pidieron cosas
 distintas. Escriba ambos casos: qué pedía cada lado, cuál cedió y por qué.
 
 **Conflicto 1:**
+El primer conflicto ocurrió entre la Disponibilidad Local del R-4 que contaba de no rechazar ninguna entrega de café en el patio por caídas de señal y la Consistencia exigida por la inmutabilidad del lote dentro del R-5. El R-4 pedía procesar y emitir comprobantes a ciegas en la tableta, mientras que el R-5 requería asegurar de forma centralizada que el peso del lote no fuera alterado tras su cierre. Cedió la consistencia global en favor de la disponibilidad local, adoptando un modelo de consistencia apoyado en el patrón de idempotencia asíncrona. Se priorizó la continuidad física del negocio en zonas rurales R-3 tomando las precauciones de duplicaciones u otros problemas en la emision de lotes.
 
 **Conflicto 2:**
+El segundo conflicto se presentó entre la Escalabilidad y Flexibilidad de Negocio R-2, R-8 y R-9 frente a la restricción de mantenimiento del R-16 que dictaba que un solo desarrollador a medio tiempo sin equipo de operaciones era el encargado del sistema. El volumen de 12,000 entregas diarias y las constantes modificaciones de las fórmulas independientes por cooperativa empujaban el diseño hacia un estilo de microservicios distribuidos complejos. No obstante, el R-16 demandaba máxima simplicidad para que una sola persona pudiera operar todo el sistema. Cedió la distribución física de servicios en favor de un Monolito Modular para el lado del sistema. Se resolvió la flexibilidad en el código usando inyección de dependencias ante cualquier cambio necesario, garantizando un despliegue sumamente barato y simple en la nube, ademas de facil de mantener para una sola persona.
